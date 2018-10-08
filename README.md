@@ -1,5 +1,7 @@
 [![Build Status](https://travis-ci.org/opspec-pkgs/gcp.gke.create.svg?branch=master)](https://travis-ci.org/opspec-pkgs/gcp.gke.create)
 
+<img src="icon.svg" alt="icon" height="100px">
+
 # Problem statement
 
 creates a kubernetes cluster in google kubernetes engine service (if it doesn't exist)
