@@ -1,0 +1,178 @@
+name: github.com/opspec-pkgs/gcp.gke.create
+description: creates a kubernetes cluster in google kubernetes engine service (if it doesn't exist)
+inputs:
+  async:
+    boolean:
+      description: don't wait for the op to complete
+      default: false
+  diskSize:
+    number:
+      default: 100
+      description: size for node VM boot disks in GB
+      constraints: {minimum: 10}
+  diskType:
+    string:
+      default: pd-standard
+      description: type of the node VM boot disks
+      constraints: {enum: [pd-standard, pd-ssd]}
+  enableAutoscaling:
+    boolean:
+      description: enable node autorepair feature for a clusters default node-pool(s)
+      default: true
+  enableAutorepair:
+    boolean:
+      description: enable node autorepair feature for a clusters default node-pool(s)
+      default: true
+  enableAutoupgrade:
+    boolean:
+      description: enable node autoupgrade feature for a clusters default node-pool(s)
+      default: true
+  enableCloudLogging:
+    boolean:
+      description: automatically send logs from the cluster to the Google Cloud Logging API
+      default: true
+  enableCloudMonitoring:
+    boolean:
+      description: automatically send metrics from pods in the cluster to the Google Cloud Monitoring API
+      default: true
+  enableIpAlias:
+    boolean:
+      description: enable use of alias IPs (https://cloud.google.com/compute/docs/alias-ip/) for pod IPs
+      default: false
+  enableMasterAuthorizedNetworks:
+    boolean:
+      description: |
+        Allow only specified set of CIDR blocks (specified by the masterAuthorizedNetworks to connect to Kubernetes master through HTTPS.
+        Besides these blocks, the following have access as well:
+        1. The private network the cluster connects to if enablePrivateNodes is specified.
+        2. Google Compute Engine Public IPs if enablePrivateNodes is not specified.
+
+        When disabled, public internet (0.0.0.0/0) is allowed to connect to Kubernetes master through HTTPS.
+      default: false
+  enableNetworkPolicy:
+    boolean:
+      description: enable network policy enforcement for this cluster.
+      default: false
+  enablePrivateEndpoint:
+    boolean:
+      description: cluster is managed using the private IP address of the master API endpoint
+      default: false
+  enablePrivateNodes:
+    boolean:
+      description: cluster is created with no public IP addresses on the cluster nodes
+      default: false
+  masterAuthorizedNetworks:
+    string:
+      description: comma separated list of CIDR blocks (up to 20) that are allowed to connect to Kubernetes master through HTTPS.
+        Specified in CIDR notation (e.g. 1.2.3.4/30). Can not be specified unless enableMasterAuthorizedNetworks is also specified.
+      default: ' '
+  maxNodes:
+    number:
+      default: 6
+      description: maximum number of nodes in the node pool; ignored unless autoscaling enabled
+      constraints: {minimum: 1}
+  machineType:
+    string:
+      default: n1-standard-1
+      description: |
+        type of machine to use for nodes. Defaults to n1-standard-1. The list of predefined machine types is available using the following command:
+        ```shell
+        $ gcloud compute machine-types list
+        ```
+        You can also specify custom machine types with the string "custom-CPUS-RAM" where ``CPUS`` is the number of virtual CPUs and ``RAM`` is the amount of RAM in MiB.
+        For example, to create a node pool using custom machines with 2 vCPUs and 12 GB of RAM:
+        ```shell
+        $ gcloud container clusters create high-mem-pool \
+            --machine-type=custom-2-12288
+        ```
+      constraints: {minLength: 1}
+  minNodes:
+    number:
+      default: 3
+      description: minimum number of nodes in the node pool; ignored unless autoscaling enabled
+      constraints: {minimum: 1}
+  name:
+    string:
+      description: name of provisioned gke cluster
+      constraints: {minLength: 1}
+  network:
+    string:
+      default: default
+      description: Compute Engine Network that the cluster will connect to. Google Kubernetes Engine will use this network when creating routes and firewalls for the clusters
+      constraints: {minLength: 1}
+  nodeLocations:
+    string:
+      description: |
+        comma separated list of zones the specified node footprint should be replicated. 
+        All zones must be in the same region as the cluster's master(s), specified by zone or region.
+        Additionally, for zonal clusters, nodeLocations must contain the cluster's primary zone. If not specified, all nodes will be in the cluster's primary zone (for zonal clusters) or spread across three randomly chosen zones within the cluster's region (for regional clusters).
+        Note that NUM_NODES nodes will be created in each zone, such that if you specify numNodes=4 and choose two locations, 8 nodes will be created.
+      default: ' '
+  numNodes:
+    number:
+      default: 3
+      description: number of nodes to be created in each of the clusters zones
+      constraints: {minimum: 1}
+  keyFile:
+    string:
+      description: key file for a GCP service account w/ `Kubernetes Engine Developer` role
+      isSecret: true
+  preemptible:
+    boolean:
+      description: create nodes using preemptible VM instances in the new cluster.
+      default: false
+  projectId:
+    string:
+      description: id of the GCP project containing the gke cluster
+      constraints: {minLength: 1}
+  region:
+    string:
+      default: ' '
+      description: region of provisioned gke cluster (e.g. us-central1)
+      constraints: { minLength: 1 }
+  subnetwork:
+    string:
+      default: ' '
+      description: Google Compute Engine subnetwork (https://cloud.google.com/compute/docs/subnetworks) to which the cluster is connected; must belong to the network specified by `network`
+      constraints: {minLength: 1}
+  zone:
+    string:
+      default: ' '
+      description: zone of provisioned gke cluster (e.g. us-central1-a)
+      constraints: { minLength: 1 }
+opspec: 0.1.6
+version: 1.0.0
+run:
+  container:
+    image: { ref: 'google/cloud-sdk:181.0.0-alpine' }
+    files:
+      /cmd.sh:
+      /keyFile: $(keyFile)
+    cmd: [ /cmd.sh ]
+    envVars:
+      async:
+      diskSize:
+      diskType:
+      enableAutoscaling:
+      enableAutorepair:
+      enableAutoupgrade:
+      enableCloudLogging:
+      enableCloudMonitoring:
+      enableNetworkPolicy:
+      enableMasterAuthorizedNetworks:
+      enablePrivateEndpoint:
+      enablePrivateNodes:
+      enableIpAlias:
+      machineType:
+      masterAuthorizedNetworks:
+      maxNodes:
+      minNodes:
+      name:
+      network:
+      nodeLocations:
+      numNodes:
+      preemptible:
+      projectId:
+      region:
+      subnetwork:
+      zone:
