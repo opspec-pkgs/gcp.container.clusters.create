@@ -30,12 +30,29 @@ opctl run github.com/opspec-pkgs/gcp.gke.create#1.0.0
 op:
   ref: github.com/opspec-pkgs/gcp.gke.create#1.0.0
   inputs:
+    async:
+    enableAutorepair:
+    enableAutoscaling:
+    enableAutoupgrade:
+    enableCloudLogging:
+    enableCloudMonitoring:
+    enableIpAlias:
+    enableMasterAuthorizedNetworks:
+    enableNetworkPolicy:
+    enablePrivateEndpoint:
+    enablePrivateNodes:
     keyFile:
     name:
+    preemptible:
     projectId:
     # params w/ default
     diskSize:
     diskType:
+    enableAutorepair:
+    enableAutoscaling:
+    enableAutoupgrade:
+    enableCloudLogging:
+    enableCloudMonitoring:
     machineType:
     masterAuthorizedNetworks:
     maxNodes:
@@ -51,7 +68,7 @@ op:
 # Support
 
 join us on
-[![Slack](https://opspec-slackin.herokuapp.com/badge.svg)](https://opspec-slackin.herokuapp.com/)
+[![Slack](https://opctl-slackin.herokuapp.com/badge.svg)](https://opctl-slackin.herokuapp.com/)
 or
 [open an issue](https://github.com/opspec-pkgs/gcp.gke.create/issues)
 
