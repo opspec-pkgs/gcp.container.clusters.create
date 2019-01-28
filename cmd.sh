@@ -38,6 +38,9 @@ clusterCreateCmd=$(printf "%s --min-nodes %s" "$clusterCreateCmd" "$minNodes")
 if [ "$async" = "true" ]; then
   clusterCreateCmd=$(printf "%s --async" "$clusterCreateCmd")
 fi
+if [ "$clusterVersion" != " " ]; then
+  clusterCreateCmd=$(printf "%s --cluster-version %s" "$clusterCreateCmd" "$clusterVersion")
+fi
 if [ "$enableAutoscaling" = "true" ]; then
   clusterCreateCmd=$(printf "%s --enable-autoscaling" "$clusterCreateCmd")
 fi
@@ -61,6 +64,9 @@ fi
 if [ "$enableNetworkPolicy" = "true" ]; then
   clusterCreateCmd=$(printf "%s --enable-network-policy" "$clusterCreateCmd")
 fi
+if [ "$enableKubernetesAlpha" = "true" ]; then
+  clusterCreateCmd=$(printf "%s --enable-kubernetes-alpha" "$clusterCreateCmd")
+fi
 if [ "$enableMasterAuthorizedNetworks" = "true" ]; then
   clusterCreateCmd=$(printf "%s --enable-master-authorized-networks" "$clusterCreateCmd")
 fi
@@ -72,6 +78,9 @@ if [ "$enablePrivateNodes" = "true" ]; then
 fi
 if [ "$masterAuthorizedNetworks" != " " ]; then
   clusterCreateCmd=$(printf "%s --master-authorized-networks %s" "$clusterCreateCmd" "$masterAuthorizedNetworks")
+fi
+if [ "$masterIpv4Cidr" != " " ]; then
+  clusterCreateCmd=$(printf "%s --master-ipv4-cidr %s" "$clusterCreateCmd" "$masterIpv4Cidr")
 fi
 if [ "$nodeLocations" != " " ]; then
   clusterCreateCmd=$(printf "%s --node-locations %s" "$clusterCreateCmd" "$nodeLocations")

@@ -15,54 +15,53 @@ the op uses [![opspec 0.1.6](https://img.shields.io/badge/opspec-0.1.6-brightgre
 ## Install
 
 ```shell
-opctl op install github.com/opspec-pkgs/gcp.gke.create#1.0.0
+opctl op install github.com/opspec-pkgs/gcp.gke.create#1.1.0
 ```
 
 ## Run
 
 ```
-opctl run github.com/opspec-pkgs/gcp.gke.create#1.0.0
+opctl run github.com/opspec-pkgs/gcp.gke.create#1.1.0
 ```
 
 ## Compose
 
 ```yaml
 op:
-  ref: github.com/opspec-pkgs/gcp.gke.create#1.0.0
+  ref: github.com/opspec-pkgs/gcp.gke.create#1.1.0
   inputs:
-    async:
-    enableAutorepair:
-    enableAutoscaling:
-    enableAutoupgrade:
-    enableCloudLogging:
-    enableCloudMonitoring:
-    enableIpAlias:
-    enableMasterAuthorizedNetworks:
-    enableNetworkPolicy:
-    enablePrivateEndpoint:
-    enablePrivateNodes:
+    # required
     keyFile:
     name:
-    preemptible:
     projectId:
-    # params w/ default
-    diskSize:
-    diskType:
-    enableAutorepair:
-    enableAutoscaling:
-    enableAutoupgrade:
-    enableCloudLogging:
-    enableCloudMonitoring:
-    machineType:
-    masterAuthorizedNetworks:
-    maxNodes:
-    minNodes:
-    network:
-    nodeLocations:
-    numNodes:
-    region:
-    subnetwork:
-    zone:
+    ### optional; uncomment to override default(s)
+    # async: false
+    # clusterVersion:  
+    # diskSize: 100
+    # diskType: pd-standard
+    # enableAutorepair: true
+    # enableAutoscaling: true
+    # enableAutoupgrade: true
+    # enableCloudLogging: true
+    # enableCloudMonitoring: true
+    # enableIpAlias: false
+    # enableKubernetesAlpha: false
+    # enableMasterAuthorizedNetworks: false
+    # enableNetworkPolicy: false
+    # enablePrivateEndpoint: false
+    # enablePrivateNodes: false
+    # machineType: n1-standard-1
+    # masterAuthorizedNetworks:  
+    # masterIpv4Cidr:  
+    # maxNodes: 6
+    # minNodes: 3
+    # network: default
+    # nodeLocations:  
+    # numNodes: 3
+    # preemptible: false
+    # region:  
+    # subnetwork:  
+    # zone:  
 ```
 
 # Support
