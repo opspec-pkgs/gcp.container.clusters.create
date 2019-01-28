@@ -5,7 +5,7 @@ set -e
 gcloud auth activate-service-account --key-file=/keyFile
 
 echo "checking for exiting gke cluster"
-clusterDescribeCmd="gcloud container clusters describe $name --project $projectId"
+clusterDescribeCmd="gcloud container clusters describe $name"
 
 # handle opts
 if [ "$zone" != " " ]; then
@@ -25,7 +25,6 @@ fi
 
 echo "creating gke cluster..."
 clusterCreateCmd="gcloud container clusters create $name"
-clusterCreateCmd=$(printf "%s --project %s" "$clusterCreateCmd" "$projectId")
 clusterCreateCmd=$(printf "%s --disk-size %s" "$clusterCreateCmd" "$diskSize")
 clusterCreateCmd=$(printf "%s --disk-type %s" "$clusterCreateCmd" "$diskType")
 clusterCreateCmd=$(printf "%s --network %s" "$clusterCreateCmd" "$network")
@@ -37,6 +36,9 @@ clusterCreateCmd=$(printf "%s --min-nodes %s" "$clusterCreateCmd" "$minNodes")
 # handle opts
 if [ "$async" = "true" ]; then
   clusterCreateCmd=$(printf "%s --async" "$clusterCreateCmd")
+fi
+if [ "$clusterVersion" != " " ]; then
+  clusterCreateCmd=$(printf "%s --cluster-version %s" "$clusterCreateCmd" "$clusterVersion")
 fi
 if [ "$enableAutoscaling" = "true" ]; then
   clusterCreateCmd=$(printf "%s --enable-autoscaling" "$clusterCreateCmd")
@@ -61,6 +63,9 @@ fi
 if [ "$enableNetworkPolicy" = "true" ]; then
   clusterCreateCmd=$(printf "%s --enable-network-policy" "$clusterCreateCmd")
 fi
+if [ "$enableKubernetesAlpha" = "true" ]; then
+  clusterCreateCmd=$(printf "%s --enable-kubernetes-alpha" "$clusterCreateCmd")
+fi
 if [ "$enableMasterAuthorizedNetworks" = "true" ]; then
   clusterCreateCmd=$(printf "%s --enable-master-authorized-networks" "$clusterCreateCmd")
 fi
@@ -72,6 +77,9 @@ if [ "$enablePrivateNodes" = "true" ]; then
 fi
 if [ "$masterAuthorizedNetworks" != " " ]; then
   clusterCreateCmd=$(printf "%s --master-authorized-networks %s" "$clusterCreateCmd" "$masterAuthorizedNetworks")
+fi
+if [ "$masterIpv4Cidr" != " " ]; then
+  clusterCreateCmd=$(printf "%s --master-ipv4-cidr %s" "$clusterCreateCmd" "$masterIpv4Cidr")
 fi
 if [ "$nodeLocations" != " " ]; then
   clusterCreateCmd=$(printf "%s --node-locations %s" "$clusterCreateCmd" "$nodeLocations")

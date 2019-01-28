@@ -1,10 +1,15 @@
-name: github.com/opspec-pkgs/gcp.gke.create
+name: github.com/opspec-pkgs/gcp.container.clusters.create
 description: creates a kubernetes cluster in google kubernetes engine service (if it doesn't exist)
 inputs:
   async:
     boolean:
       description: don't wait for the op to complete
       default: false
+  clusterVersion:
+    string:
+      default: ' '
+      description: kubernetes version to use for the master and nodes. Defaults to server-specified.
+        The default Kubernetes version is available using the following command.
   diskSize:
     number:
       default: 100
@@ -39,6 +44,13 @@ inputs:
     boolean:
       description: enable use of alias IPs (https://cloud.google.com/compute/docs/alias-ip/) for pod IPs
       default: false
+  enableKubernetesAlpha:
+    boolean:
+      description: enable Kubernetes alpha features on this cluster. 
+        Selecting this option will result in the cluster having all Kubernetes alpha API groups and features turned on.
+        Cluster upgrades (both manual and automatic) will be disabled and the cluster will be automatically deleted after 30 days.
+        Alpha clusters are not covered by the Kubernetes Engine SLA and should not be used for production workloads.
+      default: false
   enableMasterAuthorizedNetworks:
     boolean:
       description: |
@@ -65,6 +77,11 @@ inputs:
     string:
       description: comma separated list of CIDR blocks (up to 20) that are allowed to connect to Kubernetes master through HTTPS.
         Specified in CIDR notation (e.g. 1.2.3.4/30). Can not be specified unless enableMasterAuthorizedNetworks is also specified.
+      default: ' '
+  masterIpv4Cidr:
+    string:
+      description: IPv4 CIDR range to use for the master network.
+        This should have a netmask of size /28 and should be used in conjunction w/ enablePrivateNodes.
       default: ' '
   maxNodes:
     number:
@@ -141,38 +158,50 @@ inputs:
       description: zone of provisioned gke cluster (e.g. us-central1-a)
       constraints: { minLength: 1 }
 opspec: 0.1.6
-version: 1.0.0
+version: 1.1.0
 run:
-  container:
-    image: { ref: 'google/cloud-sdk:181.0.0-alpine' }
-    files:
-      /cmd.sh:
-      /keyFile: $(keyFile)
-    cmd: [ /cmd.sh ]
-    envVars:
-      async:
-      diskSize:
-      diskType:
-      enableAutoscaling:
-      enableAutorepair:
-      enableAutoupgrade:
-      enableCloudLogging:
-      enableCloudMonitoring:
-      enableNetworkPolicy:
-      enableMasterAuthorizedNetworks:
-      enablePrivateEndpoint:
-      enablePrivateNodes:
-      enableIpAlias:
-      machineType:
-      masterAuthorizedNetworks:
-      maxNodes:
-      minNodes:
-      name:
-      network:
-      nodeLocations:
-      numNodes:
-      preemptible:
-      projectId:
-      region:
-      subnetwork:
-      zone:
+  serial:
+    # ensure service enabled
+    - op:
+        ref: github.com/opspec-pkgs/gcp.services.enable#1.0.0
+        inputs:
+          keyFile:
+          projectId:
+          service: container.googleapis.com
+    - container:
+        image: { ref: 'google/cloud-sdk:229.0.0-alpine' }
+        files:
+          /cmd.sh:
+          /keyFile: $(keyFile)
+        cmd: [ /cmd.sh ]
+        envVars:
+          CLOUDSDK_CORE_PROJECT: $(projectId)
+          CLOUDSDK_CORE_DISABLE_PROMPTS: 1
+          async:
+          clusterVersion:
+          diskSize:
+          diskType:
+          enableAutoscaling:
+          enableAutorepair:
+          enableAutoupgrade:
+          enableCloudLogging:
+          enableCloudMonitoring:
+          enableKubernetesAlpha:
+          enableNetworkPolicy:
+          enableMasterAuthorizedNetworks:
+          enablePrivateEndpoint:
+          enablePrivateNodes:
+          enableIpAlias:
+          machineType:
+          masterAuthorizedNetworks:
+          masterIpv4Cidr:
+          maxNodes:
+          minNodes:
+          name:
+          network:
+          nodeLocations:
+          numNodes:
+          preemptible:
+          region:
+          subnetwork:
+          zone:
