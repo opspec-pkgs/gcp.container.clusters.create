@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/opspec-pkgs/gcp.container.clusters.create.svg?branch=master)](https://travis-ci.org/opspec-pkgs/gcp.container.clusters.create)
+[![Build Status](https://github.com/opspec-pkgs/gcp.container.clusters.create/workflows/build/badge.svg?branch=main)](https://github.com/opspec-pkgs/gcp.container.clusters.create/actions?query=workflow%3Abuild+branch%3Amain)
 
 <img src="icon.svg" alt="icon" height="100px">
 
@@ -6,16 +6,12 @@
 
 creates a kubernetes cluster in google kubernetes engine service (if it doesn't exist)
 
-# Format
-
-the op uses [![opspec 0.1.6](https://img.shields.io/badge/opspec-0.1.6-brightgreen.svg?colorA=6b6b6b&colorB=fc16be)](https://opspec.io/0.1.6) definition format
-
 # Example usage
 
-## Install
+## Visualize
 
 ```shell
-opctl op install github.com/opspec-pkgs/gcp.container.clusters.create#1.1.0
+opctl ui github.com/opspec-pkgs/gcp.container.clusters.create#1.1.0
 ```
 
 ## Run
@@ -30,44 +26,43 @@ opctl run github.com/opspec-pkgs/gcp.container.clusters.create#1.1.0
 op:
   ref: github.com/opspec-pkgs/gcp.container.clusters.create#1.1.0
   inputs:
-    # required
-    keyFile:
-    name:
-    projectId:
-    ### optional; uncomment to override default(s)
-    # async: false
-    # clusterVersion:  
-    # diskSize: 100
-    # diskType: pd-standard
-    # enableAutorepair: true
-    # enableAutoscaling: true
-    # enableAutoupgrade: true
-    # enableCloudLogging: true
-    # enableCloudMonitoring: true
-    # enableIpAlias: false
-    # enableKubernetesAlpha: false
-    # enableMasterAuthorizedNetworks: false
-    # enableNetworkPolicy: false
-    # enablePrivateEndpoint: false
-    # enablePrivateNodes: false
-    # machineType: n1-standard-1
-    # masterAuthorizedNetworks:  
-    # masterIpv4Cidr:  
-    # maxNodes: 6
-    # minNodes: 3
-    # network: default
-    # nodeLocations:  
-    # numNodes: 3
-    # preemptible: false
-    # region:  
-    # subnetwork:  
-    # zone:  
+    keyFile:  # 👈 required; provide a value
+    name:  # 👈 required; provide a value
+    projectId:  # 👈 required; provide a value
+  ## uncomment to override defaults
+  #   async: false
+  #   clusterVersion: " "
+  #   diskSize: 100
+  #   diskType: "pd-standard"
+  #   enableAutorepair: true
+  #   enableAutoscaling: true
+  #   enableAutoupgrade: true
+  #   enableCloudLogging: true
+  #   enableCloudMonitoring: true
+  #   enableIpAlias: false
+  #   enableKubernetesAlpha: false
+  #   enableMasterAuthorizedNetworks: false
+  #   enableNetworkPolicy: false
+  #   enablePrivateEndpoint: false
+  #   enablePrivateNodes: false
+  #   machineType: "n1-standard-1"
+  #   masterAuthorizedNetworks: " "
+  #   masterIpv4Cidr: " "
+  #   maxNodes: 6
+  #   minNodes: 3
+  #   network: "default"
+  #   nodeLocations: " "
+  #   numNodes: 3
+  #   preemptible: false
+  #   region: " "
+  #   subnetwork: " "
+  #   zone: " "
 ```
 
 # Support
 
 join us on
-[![Slack](https://opctl-slackin.herokuapp.com/badge.svg)](https://opctl-slackin.herokuapp.com/)
+[![Slack](https://img.shields.io/badge/slack-opctl-E01563.svg)](https://join.slack.com/t/opctl/shared_invite/zt-51zodvjn-Ul_UXfkhqYLWZPQTvNPp5w)
 or
 [open an issue](https://github.com/opspec-pkgs/gcp.container.clusters.create/issues)
 
@@ -81,4 +76,4 @@ and [tagged](https://git-scm.com/book/en/v2/Git-Basics-Tagging); see
 # Contributing
 
 see
-[project/CONTRIBUTING.md](https://github.com/opspec-pkgs/project/blob/master/CONTRIBUTING.md)
+[project/CONTRIBUTING.md](https://github.com/opspec-pkgs/project/blob/main/CONTRIBUTING.md)
